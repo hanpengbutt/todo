@@ -1,17 +1,36 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
-* {
+@font-face {
+  font-family: 'nunito';
+  src: url('assets/Nunito-VariableFont_wght.ttf') format('truetype'),
+}
+
+@font-face {
   font-family: 'pretendard';
-  cursor: default;
+  src: url('assets/PretendardVariable.ttf') format('truetype'),
 }
 
-.font-nunito {
-  font-family: 'Nunito';
-}
+@layer base {
+  body {
+    font-family: 'pretendard';
+    cursor: default;
+    color: #4B4B4B;
+    font-size: 14px;
+  }
 
-.cursor-pointer,
-.cursor-pointer * {
-  cursor: pointer;
+  h1 {
+    font-family: 'nunito';
+    font-size: 36px;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .cursor-pointer,
+  .cursor-pointer * {
+    cursor: pointer;
+  }
 }
