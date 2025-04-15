@@ -1,7 +1,8 @@
 import './App.css';
+import Main from './pages/Main';
 
 function App() {
-  return <div className="bg-red-300 text-white font-nunito">Hello World!</div>;
+  return <Main />;
 }
 
 export default App;
