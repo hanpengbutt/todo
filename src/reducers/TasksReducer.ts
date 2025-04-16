@@ -1,7 +1,7 @@
 import { IRoutine, ITodo } from '../types/Task';
 
 export type Action = {
-  type: 'ADD' | 'DELETE';
+  type: 'CREATE' | 'DELETE' | 'UPDATE';
   month?: number;
   monthTask?: {
     routine: IRoutine[];
@@ -20,12 +20,22 @@ const TasksReducer = (
   action: Action
 ) => {
   switch (action.type) {
-    case 'ADD':
-      state.set(action.month!, action.monthTask!);
-      break;
-    case 'DELETE':
-      state.delete(action.month!);
-      break;
+    case 'CREATE': {
+      const newState = new Map(state);
+      newState.set(action.month!, action.monthTask!);
+      return newState;
+    }
+    case 'DELETE': {
+      if (action.month) {
+        const newState = new Map(state);
+        newState.delete(action.month!);
+        return newState;
+      } else {
+        return new Map()
+      }
+    }
+    case 'UPDATE':
+      return state;
   }
   return state;
 };

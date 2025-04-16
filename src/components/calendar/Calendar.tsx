@@ -4,6 +4,7 @@ import { addDays, startOfWeek } from 'date-fns';
 import { ITodo, IRoutine } from '../../types/Task';
 import CalendarNavigator from './CalendarNavigator';
 import TaskContext from '../../context/TaskContext';
+import isSameDate from '../../utils/isSameDate';
 
 interface Props {
   selectDate: Date;
@@ -22,7 +23,7 @@ const Calendar = ({ selectDate, setSelectDate }: Props) => {
   const month = startDate.getMonth() + 1;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 mr-10">
       <h1>Calendar 🗓️</h1>
       {/* 년도, 월 정보 및 날짜 이동 네비게이터 */}
       <div className="flex justify-between">
@@ -40,17 +41,20 @@ const Calendar = ({ selectDate, setSelectDate }: Props) => {
         {Array.from({ length: 7 }).map((_, id) => {
           const nowDate = addDays(startDate, id);
 
-          let nowTasks: (IRoutine | ITodo)[] = taskState!.tasks
-            .get(nowDate.getMonth())!
-            .routine!.filter(
-              (task) => task.date.getTime() === nowDate.getTime()
-            );
-          nowTasks = nowTasks.concat(
-            taskState!.tasks
-              .get(nowDate.getMonth())!
-              .todo!.filter((task) => task.date.getTime() === nowDate.getTime())
-          );
+          let nowTasks: (IRoutine | ITodo)[] = [];
 
+          const nowRoutineTasks = taskState!.tasks
+            .get(nowDate.getMonth())!
+            .routine.filter((task) => isSameDate(task.date, nowDate));
+
+          nowTasks = nowTasks.concat(nowRoutineTasks);
+
+          const nowTodoTasks = taskState!.tasks
+            .get(nowDate.getMonth())!
+            .todo?.filter((task) => isSameDate(task.date, nowDate));
+
+          nowTasks = nowTasks.concat(nowTodoTasks);
+          
           return (
             <CalendarItem
               key={id}

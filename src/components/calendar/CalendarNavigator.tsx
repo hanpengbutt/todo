@@ -26,7 +26,7 @@ const CalendarNavigator = ({
       });
 
       taskState!.dispatchTasks({
-        type: 'ADD',
+        type: 'CREATE',
         month: addDays(startDate, -7).getMonth(),
         monthTask: getTasks(addDays(startDate, -7).getMonth()),
       });
@@ -43,7 +43,7 @@ const CalendarNavigator = ({
       });
 
       taskState!.dispatchTasks({
-        type: 'ADD',
+        type: 'CREATE',
         month: addDays(startDate, 13).getMonth(),
         monthTask: getTasks(addDays(startDate, 13).getMonth()),
       });
@@ -52,7 +52,26 @@ const CalendarNavigator = ({
 
   const clickToday: React.MouseEventHandler<HTMLButtonElement> = () => {
     setSelectDate(new Date());
-    setStartDate(startOfWeek(new Date(), { weekStartsOn: 0 }));
+    const startDate = startOfWeek(new Date(), { weekStartsOn: 0 });
+    setStartDate(startOfWeek(startDate));
+    if (!taskState?.tasks.get(startDate.getMonth())) {
+      // 해당 달 내용이 없는 경우
+      taskState!.dispatchTasks({
+        type: 'DELETE',
+      });
+
+      taskState!.dispatchTasks({
+        type: 'CREATE',
+        month: startDate.getMonth(),
+        monthTask: getTasks(startDate.getMonth()),
+      });
+
+      taskState!.dispatchTasks({
+        type: 'CREATE',
+        month: startDate.getMonth() + 1,
+        monthTask: getTasks(startDate.getMonth() + 1),
+      });
+    }
   };
 
   return (
