@@ -19,7 +19,7 @@ const Main = () => {
 
   return (
     <TaskContext.Provider value={{ tasks, dispatchTasks }}>
-      <div className="grid grid-cols-[65%_35%] px-30 pt-10 gap-4">
+      <div className="grid grid-cols-[65%_35%] px-[10%] pt-10">
         <Calendar selectDate={selectDate} setSelectDate={setSelectDate} />
         <Task selectDate={selectDate} />
       </div>
